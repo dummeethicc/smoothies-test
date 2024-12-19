@@ -1,100 +1,62 @@
 window.onload = () => {
     const connectWalletButton = document.getElementById('connectWallet');
     const walletOptions = document.getElementById('walletOptions');
-    const walletAddressButton = document.getElementById('connectWallet');
-    const walletDropdown = document.getElementById('walletDropdown');
-    const walletAddress = document.getElementById('walletAddress');
+    const trackerButton = document.getElementById('trackerButton');
+    const trackerPopup = document.getElementById('trackerPopup');
+    const smoothiesMinted = document.getElementById('smoothiesMinted');
+    const smeewthMinted = document.getElementById('smeewthMinted');
+    const walletDropdown = document.getElementById('walletOptions');
+    let walletAddress = null; // Store wallet address
 
-    let userWalletAddress = ''; // Variable to store the wallet address
+    // Initialize the button as "Connect Wallet"
+    connectWalletButton.textContent = "Connect Wallet";
 
-    // Handle wallet connection
-    connectWalletButton.addEventListener("click", () => {
-        walletOptions.style.display = walletOptions.style.display === "block" ? "none" : "block"; // Toggle the dropdown for wallets
+    // Toggle wallet options
+    connectWalletButton.addEventListener('click', () => {
+        walletOptions.style.display = walletOptions.style.display === "block" ? "none" : "block";
     });
 
-    // Close the wallet options dropdown when clicking outside
-    document.addEventListener("click", (event) => {
-        if (!walletOptions.contains(event.target) && !connectWalletButton.contains(event.target)) {
-            walletOptions.style.display = "none";
-        }
-    });
-
-    // Handle wallet selection
+    // Function to handle wallet connection
     function connectWallet(walletType) {
         if (walletType === 'Phantom') {
-            connectPhantomWallet();
-        } else if (walletType === 'Solflare') {
-            connectSolflareWallet();
-        } else if (walletType === 'Sollet') {
-            connectSolletWallet();
+            window.solana.connect().then((result) => {
+                walletAddress = result.publicKey.toString();
+                const abbreviatedAddress = walletAddress.substring(0, 4) + '...' + walletAddress.slice(-4);
+                connectWalletButton.textContent = abbreviatedAddress;
+                walletOptions.style.display = "none"; // Close wallet options after connection
+                console.log('Connected to Phantom:', walletAddress);
+                // Set up tracker popup data here
+                updateTracker();
+            });
         }
-        walletOptions.style.display = 'none'; // Hide wallet options after selection
+        // You can add other wallet options like Solflare, Sollet here...
     }
 
-    // Phantom Wallet connection
-    async function connectPhantomWallet() {
-        if (window.solana && window.solana.isPhantom) {
-            try {
-                const response = await window.solana.connect();
-                userWalletAddress = response.publicKey.toString();
-                displayWalletAddress(userWalletAddress); // Update the UI with the wallet address
-            } catch (err) {
-                console.error("Phantom Wallet connection failed", err);
-            }
-        } else {
-            alert('Phantom wallet is not installed.');
-        }
+    // Update tracker data
+    function updateTracker() {
+        // Update smoothies and SMEWTH data
+        smoothiesMinted.textContent = 1500; // Placeholder, change with real data from blockchain
+        smeewthMinted.textContent = 300;  // Placeholder, change with real data from blockchain
     }
 
-    // Solflare Wallet connection (similar to Phantom)
-    async function connectSolflareWallet() {
-        if (window.solflare) {
-            try {
-                const response = await window.solflare.connect();
-                userWalletAddress = response.publicKey.toString();
-                displayWalletAddress(userWalletAddress);
-            } catch (err) {
-                console.error("Solflare Wallet connection failed", err);
-            }
-        } else {
-            alert('Solflare wallet is not installed.');
-        }
-    }
-
-    // Sollet Wallet connection (similar to Phantom)
-    async function connectSolletWallet() {
-        if (window.sollet) {
-            try {
-                const response = await window.sollet.connect();
-                userWalletAddress = response.publicKey.toString();
-                displayWalletAddress(userWalletAddress);
-            } catch (err) {
-                console.error("Sollet Wallet connection failed", err);
-            }
-        } else {
-            alert('Sollet wallet is not installed.');
-        }
-    }
-
-    // Display the abbreviated wallet address and show dropdown on click
-    function displayWalletAddress(address) {
-        const abbreviatedAddress = address.slice(0, 3) + "..." + address.slice(-4);
-        walletAddressButton.innerText = abbreviatedAddress;
-        walletDropdown.style.display = "block"; // Show the wallet info dropdown when the wallet is connected
-    }
-
-    // Show the wallet info dropdown when the user clicks on the address
-    walletAddressButton.addEventListener("click", () => {
-        walletDropdown.style.display = walletDropdown.style.display === "block" ? "none" : "block";
+    // Show tracker popup
+    trackerButton.addEventListener('click', () => {
+        trackerPopup.style.display = trackerPopup.style.display === "block" ? "none" : "block";
     });
 
-    // Example for tracking balances (smoothie & smeewth balances)
-    function updateWalletInfo() {
-        // Fetch balance data here (you would interact with your Solana contract to fetch real balance data)
-        smoothieBalance.innerText = "10 Smoothies"; // Example balance
-        smeewthBalance.innerText = "5 SMEWTH Tokens"; // Example balance
-    }
+    // Close tracker popup
+    document.getElementById('closeTrackerPopup').addEventListener('click', () => {
+        trackerPopup.style.display = "none";
+    });
 
-    // Call updateWalletInfo after wallet is connected to show balances
-    updateWalletInfo();
+    // Mint button functionality
+    document.getElementById('mintButton').addEventListener('click', () => {
+        if (walletAddress) {
+            // Start minting process after wallet is connected
+            console.log('Starting mint process...');
+            // Add your minting logic here, call Solana functions, etc.
+        } else {
+            alert("Please connect your wallet first.");
+        }
+    });
 };
