@@ -1,62 +1,42 @@
 window.onload = () => {
     const connectWalletButton = document.getElementById('connectWallet');
     const walletOptions = document.getElementById('walletOptions');
-    const trackerButton = document.getElementById('trackerButton');
-    const trackerPopup = document.getElementById('trackerPopup');
-    const smoothiesMinted = document.getElementById('smoothiesMinted');
-    const smeewthMinted = document.getElementById('smeewthMinted');
-    const walletDropdown = document.getElementById('walletOptions');
-    let walletAddress = null; // Store wallet address
+    const blenderVideo = document.getElementById('blenderVideo');
+    const mintButton = document.getElementById('mintButton');
+    let connectedWalletAddress = null;
 
-    // Initialize the button as "Connect Wallet"
-    connectWalletButton.textContent = "Connect Wallet";
-
-    // Toggle wallet options
+    // Toggle wallet options dropdown
     connectWalletButton.addEventListener('click', () => {
-        walletOptions.style.display = walletOptions.style.display === "block" ? "none" : "block";
+        walletOptions.style.display = walletOptions.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Function to handle wallet connection
-    function connectWallet(walletType) {
-        if (walletType === 'Phantom') {
-            window.solana.connect().then((result) => {
-                walletAddress = result.publicKey.toString();
-                const abbreviatedAddress = walletAddress.substring(0, 4) + '...' + walletAddress.slice(-4);
-                connectWalletButton.textContent = abbreviatedAddress;
-                walletOptions.style.display = "none"; // Close wallet options after connection
-                console.log('Connected to Phantom:', walletAddress);
-                // Set up tracker popup data here
-                updateTracker();
-            });
+    // Simulate wallet connection (use Phantom, Solflare, Sollet logic here)
+    const connectWallet = (walletType) => {
+        // In actual implementation, you'd use a Solana wallet provider to connect the wallet
+        // Here, we're simulating it with a mock address for simplicity
+        const walletAddress = "1h4...edXy"; // Simulated wallet address
+
+        connectedWalletAddress = walletAddress;
+
+        // Update the button to show the abbreviated wallet address
+        connectWalletButton.textContent = `${walletAddress.slice(0, 3)}...${walletAddress.slice(-4)}`;
+        walletOptions.style.display = 'none'; // Close the wallet options dropdown
+    };
+
+    // Handle minting action
+    mintButton.addEventListener('click', () => {
+        if (!connectedWalletAddress) {
+            alert('Please connect your wallet first.');
+            return;
         }
-        // You can add other wallet options like Solflare, Sollet here...
-    }
 
-    // Update tracker data
-    function updateTracker() {
-        // Update smoothies and SMEWTH data
-        smoothiesMinted.textContent = 1500; // Placeholder, change with real data from blockchain
-        smeewthMinted.textContent = 300;  // Placeholder, change with real data from blockchain
-    }
+        blenderVideo.style.display = "block"; // Show the video
+        blenderVideo.play(); // Start the video
+        // Add the minting process here (interact with the Solana smart contract)
 
-    // Show tracker popup
-    trackerButton.addEventListener('click', () => {
-        trackerPopup.style.display = trackerPopup.style.display === "block" ? "none" : "block";
-    });
-
-    // Close tracker popup
-    document.getElementById('closeTrackerPopup').addEventListener('click', () => {
-        trackerPopup.style.display = "none";
-    });
-
-    // Mint button functionality
-    document.getElementById('mintButton').addEventListener('click', () => {
-        if (walletAddress) {
-            // Start minting process after wallet is connected
-            console.log('Starting mint process...');
-            // Add your minting logic here, call Solana functions, etc.
-        } else {
-            alert("Please connect your wallet first.");
-        }
+        setTimeout(() => {
+            blenderVideo.style.display = "none"; // Hide the video after minting process
+            alert('Minting completed!');
+        }, 3000); // Simulate delay for video playing
     });
 };
