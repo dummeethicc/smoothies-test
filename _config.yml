@@ -6,6 +6,8 @@ url: "https://yourusername.github.io" # the base hostname & protocol for your si
 # Build settings
 markdown: kramdown
 theme: minima
+sass:
+  style: compressed
 
 # Exclude these files from processing
 exclude:
