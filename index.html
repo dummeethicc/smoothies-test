@@ -11,7 +11,7 @@
     <style>
         body {
             margin: 0;
-            font-family: 'Doto', sans-serif;
+            font-family: 'Doto', sans-serif; /* Apply Doto font globally */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -43,8 +43,8 @@
 
         .button-container {
             display: flex;
-            gap: 10px;
-            margin-left: auto;
+            gap: 10px; /* Small space between buttons */
+            margin-left: auto; /* Push buttons to the right */
         }
 
         .popup-button {
@@ -174,7 +174,6 @@
             color: white;
         }
 
-        /* Outcome Modal */
         #outcomeModal {
             display: none;
             position: fixed;
@@ -233,7 +232,7 @@
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            display: none;
+            display: none; /* Hidden by default */
             max-width: 300px;
             font-family: 'Doto', sans-serif;
             color: black;
@@ -244,6 +243,7 @@
             margin: 10px 0;
         }
 
+        /* Pop-out buttons */
         .popup-button {
             padding: 10px 20px;
             font-size: 16px;
@@ -259,6 +259,7 @@
         .popup-button:hover {
             background-color: #333333;
         }
+
     </style>
 </head>
 <body>
@@ -316,6 +317,6 @@
         <button id="closeExplanationPopup">Close</button>
     </div>
 
-    <script src="smoothie_script_test.js"></script>  <!-- Your JavaScript file -->
+    <script src="smoothie_script.js"></script>  <!-- Your JavaScript file -->
 </body>
 </html>
