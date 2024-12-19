@@ -1,198 +1,81 @@
 window.onload = () => {
-    const wtfButton = document.getElementById('wtfButton');
-    const trackerButton = document.getElementById('trackerButton');
-    const explanationPopup = document.getElementById('explanationPopup');
-    const trackerPopup = document.getElementById('trackerPopup');
-    const closeExplanationPopup = document.getElementById('closeExplanationPopup');
-    const closeTrackerPopup = document.getElementById('closeTrackerPopup');
-    const outcomeModal = document.getElementById("outcomeModal");
-    const closeOutcomeModal = document.getElementById("closeOutcomeModal");
+    const connectWalletButton = document.getElementById('connectWallet');
+    const walletOptions = document.getElementById('walletOptions');
+    const walletDropdown = document.getElementById('walletDropdown');
+    const walletAddressButton = document.getElementById('walletAddress');
+    const smoothieBalance = document.getElementById('smoothiesBalance'); // Element showing smoothie balance
+    const smeewthBalance = document.getElementById('smeewthBalance'); // Element showing smeewth balance
 
-    const mintButton = document.getElementById("mintButton");
-    const blenderVideo = document.getElementById("blenderVideo");
-    const connectWalletButton = document.getElementById("connectWallet");
-    const walletOptions = document.getElementById("walletOptions");
-    const cooperationModal = document.getElementById("cooperationModal");
-    const cooperateButton = document.getElementById("cooperateButton");
-    const stealButton = document.getElementById("stealButton");
-    const title = document.getElementById("title");
-    const outcomeMessage = document.getElementById("outcomeMessage");
+    let userWalletAddress = ''; // Variable to store the wallet address
 
-    let walletAddress = ''; // To store the connected wallet address
+    // Handle wallet connection
+    connectWalletButton.addEventListener("click", () => {
+        walletOptions.style.display = walletOptions.style.display === "block" ? "none" : "block"; // Toggle the dropdown for wallets
+    });
 
-    // Function to update the tracker UI
-    function updateTracker() {
-        // Update tracker logic here
-    }
-
-    // Wallet selection toggle
-    if (connectWalletButton) {
-        connectWalletButton.addEventListener("click", (event) => {
-            event.stopPropagation();
-            walletOptions.style.display = walletOptions.style.display === "block" ? "none" : "block";
-        });
-    }
-
-    // Close wallet options if clicked outside
+    // Close the wallet options dropdown when clicking outside
     document.addEventListener("click", (event) => {
-        if (walletOptions && !walletOptions.contains(event.target) && !connectWalletButton.contains(event.target)) {
+        if (!walletOptions.contains(event.target) && !connectWalletButton.contains(event.target)) {
             walletOptions.style.display = "none";
         }
     });
 
-    // Connect wallet function
-    async function connectWallet(walletType) {
-        try {
-            let provider;
-            if (walletType === "Phantom") {
-                if (window.solana && window.solana.isPhantom) {
-                    provider = window.solana;
-                } else {
-                    alert("Phantom wallet not detected.");
-                    return;
-                }
-            } else {
-                alert("Wallet not supported.");
-                return;
+    // Handle wallet selection
+    function connectWallet(walletType) {
+        if (walletType === 'Phantom') {
+            connectPhantomWallet();
+        } else if (walletType === 'Solflare') {
+            connectSolflareWallet();
+        } else if (walletType === 'Sollet') {
+            connectSolletWallet();
+        }
+        walletOptions.style.display = 'none'; // Hide wallet options after selection
+    }
+
+    // Phantom Wallet connection
+    async function connectPhantomWallet() {
+        if (window.solana && window.solana.isPhantom) {
+            try {
+                const response = await window.solana.connect();
+                userWalletAddress = response.publicKey.toString();
+                displayWalletAddress(userWalletAddress); // Update the UI with the wallet address
+            } catch (err) {
+                console.error("Phantom Wallet connection failed", err);
             }
-
-            const connected = await provider.connect();
-            walletAddress = connected.publicKey.toString();
-            console.log("Connected to wallet:", walletAddress);
-
-            // Update the button to show the wallet address abbreviation
-            const abbreviatedAddress = `${walletAddress.slice(0, 3)}...${walletAddress.slice(-4)}`;
-            connectWalletButton.textContent = abbreviatedAddress;
-
-            // Hide wallet options dropdown
-            walletOptions.style.display = "none";
-        } catch (err) {
-            console.error("Error connecting wallet:", err);
+        } else {
+            alert('Phantom wallet is not installed.');
         }
     }
 
-    // Event listener for wallet buttons
-    const walletOptionsList = document.querySelectorAll('.wallet-option');
-    walletOptionsList.forEach((option) => {
-        option.addEventListener('click', (event) => {
-            const walletType = event.target.innerText;
-            connectWallet(walletType);
-        });
-    });
-
-    // Show the cooperation modal when the mint button is clicked
-    if (mintButton) {
-        mintButton.addEventListener("click", () => {
-            if (cooperationModal) {
-                cooperationModal.style.display = 'block';
-            } else {
-                console.error("Cooperation modal not found");
-            }
-        });
+    // Solflare Wallet connection
+    async function connectSolflareWallet() {
+        // Code for connecting Solflare goes here (similar to Phantom)
     }
 
-    // Handle cooperation decision
-    function handleCooperation(decision) {
-        cooperationModal.style.display = 'none';  // Close modal
-        startMinting(decision);
+    // Sollet Wallet connection
+    async function connectSolletWallet() {
+        // Code for connecting Sollet goes here (similar to Phantom)
     }
 
-    // Start minting process with video and decision
-    async function startMinting(cooperate) {
-        // Show the minting video when the mint button is clicked
-        blenderVideo.style.display = "block";
-        blenderVideo.play();
-
-        // Hide the mint button while the video plays
-        if (mintButton) {
-            mintButton.style.display = "none";
-        }
-
-        // Randomly decide the contract's action (cooperate or steal)
-        const contractDecision = Math.random() > 0.5 ? 'cooperate' : 'steal';
-
-        // Outcome determination based on cooperation/steal
-        let outcome = '';
-
-        if (cooperate === 'steal' && contractDecision === 'steal') {
-            outcome = 'Try again';
-        } else if (cooperate === 'cooperate' && contractDecision === 'cooperate') {
-            outcome = '1 smoothie minted';
-        } else if (cooperate === 'steal' && contractDecision === 'cooperate') {
-            outcome = '2 smoothies minted';
-        } else if (cooperate === 'cooperate' && contractDecision === 'steal') {
-            outcome = '1 SMEWTH token minted';
-        }
-
-        // After a 3-second delay (simulating minting), hide video and show result
-        setTimeout(() => {
-            blenderVideo.style.display = "none"; // Hide the video
-            if (mintButton) {
-                mintButton.style.display = "block"; // Show mint button again
-            }
-            outcomeMessage.innerText = outcome; // Display the outcome
-            if (outcomeModal) {
-                outcomeModal.style.display = "block"; // Show outcome modal
-            }
-
-            updateTracker();  // Update tracker UI with new stats
-        }, 3000); // Adjust this duration based on your video length
+    // Display the abbreviated wallet address and show dropdown on click
+    function displayWalletAddress(address) {
+        const abbreviatedAddress = address.slice(0, 3) + "..." + address.slice(-4);
+        walletAddressButton.innerText = abbreviatedAddress;
+        walletDropdown.style.display = "block"; // Show the wallet info dropdown when the wallet is connected
     }
 
-    // Close the outcome modal when the user clicks the Close button
-    if (closeOutcomeModal) {
-        closeOutcomeModal.addEventListener("click", () => {
-            if (outcomeModal) {
-                outcomeModal.style.display = "none";
-            }
-        });
+    // Show the wallet info dropdown when the user clicks on the address
+    walletAddressButton.addEventListener("click", () => {
+        walletDropdown.style.display = walletDropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Example for tracking balances (smoothie & smeewth balances)
+    function updateWalletInfo() {
+        // Fetch balance data here (you would interact with your Solana contract to fetch real balance data)
+        smoothieBalance.innerText = "10 Smoothies"; // Example balance
+        smeewthBalance.innerText = "5 SMEWTH Tokens"; // Example balance
     }
 
-    // Event listeners for the cooperation buttons
-    if (cooperateButton) {
-        cooperateButton.addEventListener('click', () => {
-            handleCooperation('cooperate');
-        });
-    }
-
-    if (stealButton) {
-        stealButton.addEventListener('click', () => {
-            handleCooperation('steal');
-        });
-    }
-
-    // Toggle explanation pop-up
-    wtfButton.addEventListener('click', () => {
-        explanationPopup.style.display = explanationPopup.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Toggle tracker pop-up
-    trackerButton.addEventListener('click', () => {
-        trackerPopup.style.display = trackerPopup.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Close the explanation pop-up
-    closeExplanationPopup.addEventListener('click', () => {
-        explanationPopup.style.display = 'none';
-    });
-
-    // Close the tracker pop-up
-    closeTrackerPopup.addEventListener('click', () => {
-        trackerPopup.style.display = 'none';
-    });
-
-    // Close the pop-ups when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!explanationPopup.contains(event.target) && !wtfButton.contains(event.target)) {
-            explanationPopup.style.display = 'none';
-        }
-        if (!trackerPopup.contains(event.target) && !trackerButton.contains(event.target)) {
-            trackerPopup.style.display = 'none';
-        }
-
-        // Close the outcome modal if clicked outside
-        if (outcomeModal && !outcomeModal.contains(event.target) && outcomeModal.style.display === 'block') {
-            outcomeModal.style.display = "none";
-        }
-    });
+    // Call updateWalletInfo after wallet is connected to show balances
+    updateWalletInfo();
 };
