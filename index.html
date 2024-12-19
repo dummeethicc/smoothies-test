@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smoothies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Doto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- External CSS file (optional) -->
 
     <style>
+        /* Basic Styles (You can move this into an external CSS file) */
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Doto', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #808080;
         }
 
         header {
@@ -29,6 +32,13 @@
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
 
+        .title {
+            margin-left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         .button-container {
             display: flex;
             gap: 10px;
@@ -38,30 +48,15 @@
         .popup-button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #000;
+            background-color: #000000;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            text-transform: lowercase;
         }
 
         .popup-button:hover {
-            background-color: #333;
-        }
-
-        .connect-wallet {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #000;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .connect-wallet:hover {
-            background-color: #333;
+            background-color: #333333;
         }
 
         .wallet-options {
@@ -73,8 +68,6 @@
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 100;
         }
 
         .wallet-option {
@@ -82,83 +75,48 @@
             cursor: pointer;
             font-size: 16px;
             margin: 5px 0;
-            border: 1px solid #000;
-            color: #000;
-            border-radius: 5px;
+            border: 1px solid #000000;
         }
 
         .wallet-option:hover {
-            background: #000;
+            background: #000000;
             color: white;
         }
 
-        main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-            text-align: center;
-        }
-
         .mint-button {
-            margin-top: 5px;
+            margin-top: 20px;
             padding: 15px 30px;
             font-size: 18px;
-            background-color: #000;
+            background-color: #000000;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .mint-button:hover {
-            background-color: #333;
-        }
-
-        .tracker-popup {
-            display: none;
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="title" id="title">Smoothies</div>
-        <div class="button-container">
-            <button class="popup-button" id="wtfButton">WTF</button>
-            <button class="popup-button" id="trackerButton">Tracker</button>
-            <button class="connect-wallet" id="connectWallet">Connect Wallet</button>
-        </div>
-    </header>
 
-    <!-- Wallet Options Pop-up -->
-    <div class="wallet-options" id="walletOptions">
-        <div class="wallet-option" onclick="connectWallet('Phantom')">Phantom</div>
-        <div class="wallet-option" onclick="connectWallet('Solflare')">Solflare</div>
-        <div class="wallet-option" onclick="connectWallet('Sollet')">Sollet</div>
+<header>
+    <div class="title" id="title">Smoothies</div>
+    <div class="button-container">
+        <button class="popup-button" id="connectWallet">Connect Wallet</button>
     </div>
+</header>
 
-    <main>
-        <video id="blenderVideo" src="blendooor.mp4" width="600" height="400"></video>
-        <button class="mint-button" id="mintButton">Mint for 0.2 SOL</button>
-    </main>
+<!-- Wallet options dropdown -->
+<div class="wallet-options" id="walletOptions">
+    <div class="wallet-option" onclick="connectWallet('Phantom')">Phantom</div>
+    <div class="wallet-option" onclick="connectWallet('Solflare')">Solflare</div>
+    <div class="wallet-option" onclick="connectWallet('Sollet')">Sollet</div>
+</div>
 
-    <!-- Tracker Pop-up -->
-    <div class="tracker-popup" id="trackerPopup">
-        <p>Smoothies Minted: <span id="smoothiesMinted">0</span></p>
-        <p>SMEWTH Tokens Minted: <span id="smeewthMinted">0</span></p>
-        <button id="closeTrackerPopup">Close</button>
-    </div>
+<main>
+    <video id="blenderVideo" src="blendooor.mp4"></video>
+    <button class="mint-button" id="mintButton">Mint for 0.2 SOL</button>
+</main>
 
-    <script src="smoothie_script.js"></script> <!-- Your JavaScript file -->
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.42.0/lib/index.iife.js"></script> <!-- Solana Web3.js CDN -->
+<script src="smoothie_script.js"></script> <!-- External JavaScript file -->
 </body>
 </html>
