@@ -5,67 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smoothies</title>
 
-    <!-- Import the Doto font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Doto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
 
-    <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .popup-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: lowercase;
+        }
+
+        .popup-button:hover {
+            background-color: #333;
+        }
+
+        .connect-wallet {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .connect-wallet:hover {
+            background-color: #333;
+        }
+
+        .wallet-options {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .wallet-option {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px 0;
+            border: 1px solid #000;
+            color: #000;
+            border-radius: 5px;
+        }
+
+        .wallet-option:hover {
+            background: #000;
+            color: white;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .mint-button {
+            margin-top: 5px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mint-button:hover {
+            background-color: #333;
+        }
+
+        .tracker-popup {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="title" id="title">Smoothies</div>
         <div class="button-container">
-            <button class="popup-button" id="wtfButton">WTF</button> <!-- WTF Button -->
-            <button class="popup-button" id="trackerButton">Tracker</button> <!-- Tracker Button -->
-            <button class="connect-wallet" id="connectWallet">Connect Wallet</button> <!-- Connect Wallet Button -->
+            <button class="popup-button" id="wtfButton">WTF</button>
+            <button class="popup-button" id="trackerButton">Tracker</button>
+            <button class="connect-wallet" id="connectWallet">Connect Wallet</button>
         </div>
     </header>
 
+    <!-- Wallet Options Pop-up -->
     <div class="wallet-options" id="walletOptions">
         <div class="wallet-option" onclick="connectWallet('Phantom')">Phantom</div>
         <div class="wallet-option" onclick="connectWallet('Solflare')">Solflare</div>
         <div class="wallet-option" onclick="connectWallet('Sollet')">Sollet</div>
     </div>
-    
+
     <main>
-        <video id="blenderVideo" src="blendooor.mp4"></video>
+        <video id="blenderVideo" src="blendooor.mp4" width="600" height="400"></video>
         <button class="mint-button" id="mintButton">Mint for 0.2 SOL</button>
     </main>
 
-    <!-- Cooperation Modal -->
-    <div id="cooperationModal">
-        <p>Cooperate or Steal?</p>
-        <button id="cooperateButton">Cooperate</button>
-        <button id="stealButton">Steal</button>
-    </div>
-
-    <!-- Outcome Modal -->
-    <div id="outcomeModal">
-        <p id="outcomeMessage"></p>
-        <button id="closeOutcomeModal">Close</button>
-    </div>
-
     <!-- Tracker Pop-up -->
-    <div class="popup" id="trackerPopup">
-        <p>Smoothies Available to Mint: <span id="smoothiesAvailable">10000</span>/10000</p>
-        <p>SMEWTH Tokens Minted: <span id="smeewthMinted">0</span></p>
+    <div class="tracker-popup" id="trackerPopup">
         <p>Smoothies Minted: <span id="smoothiesMinted">0</span></p>
+        <p>SMEWTH Tokens Minted: <span id="smeewthMinted">0</span></p>
         <button id="closeTrackerPopup">Close</button>
     </div>
 
-    <!-- Explanation Pop-up -->
-    <div class="popup" id="explanationPopup">
-        <p>Welcome to Smoothies. Here is how minting works:</p>
-        <p>When minting you have two options: cooperate or steal.</p>
-        <p>If you cooperate and the contract cooperates, you get 1 smoothie.</p>
-        <p>If you cooperate and the contract steals, you get 1 SMEWTH token.</p>
-        <p>If you steal and the contract cooperates, you get 2 smoothies.</p>
-        <p>If you steal and the contract steals, you get nothing.</p>
-        <p>The contract, like you, has a 50/50 chance of choosing to cooperate or steal.</p>
-        <p>Stay smooth.</p>
-        <button id="closeExplanationPopup">Close</button>
-    </div>
-
-    <script src="smoothie_script.js"></script>  <!-- Your JavaScript file -->
+    <script src="smoothie_script.js"></script> <!-- Your JavaScript file -->
 </body>
 </html>
