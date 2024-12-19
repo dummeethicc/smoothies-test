@@ -1,10 +1,9 @@
 window.onload = () => {
     const connectWalletButton = document.getElementById('connectWallet');
     const walletOptions = document.getElementById('walletOptions');
+    const walletAddressButton = document.getElementById('connectWallet');
     const walletDropdown = document.getElementById('walletDropdown');
-    const walletAddressButton = document.getElementById('walletAddress');
-    const smoothieBalance = document.getElementById('smoothiesBalance'); // Element showing smoothie balance
-    const smeewthBalance = document.getElementById('smeewthBalance'); // Element showing smeewth balance
+    const walletAddress = document.getElementById('walletAddress');
 
     let userWalletAddress = ''; // Variable to store the wallet address
 
@@ -47,14 +46,34 @@ window.onload = () => {
         }
     }
 
-    // Solflare Wallet connection
+    // Solflare Wallet connection (similar to Phantom)
     async function connectSolflareWallet() {
-        // Code for connecting Solflare goes here (similar to Phantom)
+        if (window.solflare) {
+            try {
+                const response = await window.solflare.connect();
+                userWalletAddress = response.publicKey.toString();
+                displayWalletAddress(userWalletAddress);
+            } catch (err) {
+                console.error("Solflare Wallet connection failed", err);
+            }
+        } else {
+            alert('Solflare wallet is not installed.');
+        }
     }
 
-    // Sollet Wallet connection
+    // Sollet Wallet connection (similar to Phantom)
     async function connectSolletWallet() {
-        // Code for connecting Sollet goes here (similar to Phantom)
+        if (window.sollet) {
+            try {
+                const response = await window.sollet.connect();
+                userWalletAddress = response.publicKey.toString();
+                displayWalletAddress(userWalletAddress);
+            } catch (err) {
+                console.error("Sollet Wallet connection failed", err);
+            }
+        } else {
+            alert('Sollet wallet is not installed.');
+        }
     }
 
     // Display the abbreviated wallet address and show dropdown on click
