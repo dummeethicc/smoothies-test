@@ -23,12 +23,11 @@ window.onload = () => {
     const smoothiesMinted = document.getElementById('smoothiesMinted');
     const smeewthMinted = document.getElementById('smeewthMinted');
 
-    let userWallet = null; // Track the connected wallet
-
     // Initialize counts
     let smoothiesAvailableCount = 10000;
     let smoothiesMintedCount = 0;
     let smeewthMintedCount = 0;
+    let userWalletAddress = null; // To store user's wallet address
 
     // Function to update the tracker UI
     function updateTracker() {
@@ -59,41 +58,30 @@ window.onload = () => {
         });
     }
 
-    // Function to connect the wallet
-    const connectWallet = async (walletType) => {
-        try {
-            if (walletType === 'Phantom') {
-                // Check if Phantom is available
-                if (window.solana && window.solana.isPhantom) {
-                    // Connect to Phantom wallet
-                    const resp = await window.solana.connect();  // Request connection to Phantom
-                    userWallet = resp;
-                    console.log("Connected to Phantom:", userWallet.publicKey.toString());
+    // Connect wallet function
+    async function connectWallet(walletName) {
+        alert(`Attempting to connect to ${walletName}...`);
 
-                    // Optionally: You can send the user's public key to your server or use it for further operations
-                    // Update the UI based on the connection
-                    walletOptions.style.display = "none";  // Hide the wallet options dropdown
-                    alert("Wallet connected: " + userWallet.publicKey.toString());
-                } else {
-                    alert("Phantom Wallet not detected. Please install Phantom.");
-                }
-            } else {
-                alert(`${walletType} wallet connection coming soon!`);
+        if (walletName === "Phantom" && window.solana && window.solana.isPhantom) {
+            try {
+                const resp = await window.solana.connect();
+                userWalletAddress = resp.publicKey.toString(); // Save the wallet address
+                updateWalletButton(userWalletAddress);
+                alert(`Connected to Phantom Wallet: ${userWalletAddress}`);
+            } catch (err) {
+                alert("Connection failed.");
             }
-        } catch (error) {
-            console.error("Error connecting to wallet:", error);
-            alert("Error connecting to wallet: " + error.message);
+        } else {
+            alert(`${walletName} wallet support coming soon!`);
         }
-    };
+    }
 
-    // Event listener for wallet options
-    const walletOptionsElements = document.querySelectorAll('.wallet-option');
-    walletOptionsElements.forEach((element) => {
-        element.addEventListener('click', (event) => {
-            const walletType = event.target.innerText;
-            connectWallet(walletType); // Pass the wallet type (Phantom)
-        });
-    });
+    // Update the connect wallet button to show the wallet address
+    function updateWalletButton(walletAddress) {
+        // Format the address: first 3 characters + '...' + last 4 characters
+        const abbreviatedAddress = `${walletAddress.slice(0, 3)}...${walletAddress.slice(-4)}`;
+        connectWalletButton.textContent = `Connected: ${abbreviatedAddress}`;
+    }
 
     // Show the cooperation modal when the mint button is clicked
     if (mintButton) {
