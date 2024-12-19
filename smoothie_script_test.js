@@ -1,4 +1,5 @@
 window.onload = () => {
+    // DOM elements
     const wtfButton = document.getElementById('wtfButton');
     const trackerButton = document.getElementById('trackerButton');
     const explanationPopup = document.getElementById('explanationPopup');
@@ -7,7 +8,6 @@ window.onload = () => {
     const closeTrackerPopup = document.getElementById('closeTrackerPopup');
     const outcomeModal = document.getElementById("outcomeModal");
     const closeOutcomeModal = document.getElementById("closeOutcomeModal");
-
     const mintButton = document.getElementById("mintButton");
     const blenderVideo = document.getElementById("blenderVideo");
     const connectWalletButton = document.getElementById("connectWallet");
@@ -18,14 +18,14 @@ window.onload = () => {
     const title = document.getElementById("title");
     const outcomeMessage = document.getElementById("outcomeMessage");
 
-    let walletAddress = ''; // To store the connected wallet address
+    let walletAddress = ''; // Store the connected wallet address
 
-    // Function to update the tracker UI
+    // Function to update the tracker UI (placeholder for actual logic)
     function updateTracker() {
         // Update tracker logic here
     }
 
-    // Wallet selection toggle
+    // Toggle wallet options display
     if (connectWalletButton) {
         connectWalletButton.addEventListener("click", (event) => {
             event.stopPropagation();
@@ -71,7 +71,7 @@ window.onload = () => {
         }
     }
 
-    // Event listener for wallet buttons
+    // Event listener for wallet options
     const walletOptionsList = document.querySelectorAll('.wallet-option');
     walletOptionsList.forEach((option) => {
         option.addEventListener('click', (event) => {
@@ -80,7 +80,7 @@ window.onload = () => {
         });
     });
 
-    // Show the cooperation modal when the mint button is clicked
+    // Show cooperation modal when the mint button is clicked
     if (mintButton) {
         mintButton.addEventListener("click", () => {
             if (cooperationModal) {
@@ -93,17 +93,15 @@ window.onload = () => {
 
     // Handle cooperation decision
     function handleCooperation(decision) {
-        cooperationModal.style.display = 'none';  // Close modal
+        cooperationModal.style.display = 'none'; // Close modal
         startMinting(decision);
     }
 
     // Start minting process with video and decision
     async function startMinting(cooperate) {
-        // Show the minting video when the mint button is clicked
         blenderVideo.style.display = "block";
         blenderVideo.play();
 
-        // Hide the mint button while the video plays
         if (mintButton) {
             mintButton.style.display = "none";
         }
@@ -124,7 +122,7 @@ window.onload = () => {
             outcome = '1 SMEWTH token minted';
         }
 
-        // After a 3-second delay (simulating minting), hide video and show result
+        // After a delay, hide video and show result
         setTimeout(() => {
             blenderVideo.style.display = "none"; // Hide the video
             if (mintButton) {
@@ -135,7 +133,7 @@ window.onload = () => {
                 outcomeModal.style.display = "block"; // Show outcome modal
             }
 
-            updateTracker();  // Update tracker UI with new stats
+            updateTracker(); // Update tracker UI with new stats
         }, 3000); // Adjust this duration based on your video length
     }
 
@@ -181,7 +179,7 @@ window.onload = () => {
         trackerPopup.style.display = 'none';
     });
 
-    // Close the pop-ups when clicking outside
+    // Close pop-ups when clicking outside
     document.addEventListener('click', (event) => {
         if (!explanationPopup.contains(event.target) && !wtfButton.contains(event.target)) {
             explanationPopup.style.display = 'none';
