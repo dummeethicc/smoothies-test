@@ -1,0 +1,25 @@
+title: Smoothies Test Project
+description: Solana NFT test project
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://yourusername.github.io" # the base hostname & protocol for your site
+
+# Build settings
+markdown: kramdown
+theme: minima
+
+# Exclude these files from processing
+exclude:
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+
+# Include these files in the site
+include:
+  - _pages
+  - _posts
+
+# Add any plugins you might be using
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
