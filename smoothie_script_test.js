@@ -10,17 +10,25 @@ window.onload = () => {
         walletOptions.style.display = walletOptions.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Simulate wallet connection (use Phantom, Solflare, Sollet logic here)
-    const connectWallet = (walletType) => {
-        // In actual implementation, you'd use a Solana wallet provider to connect the wallet
-        // Here, we're simulating it with a mock address for simplicity
-        const walletAddress = "1h4...edXy"; // Simulated wallet address
+    // Connect the wallet and get the address
+    const connectWallet = async (walletType) => {
+        if (window.solana && window.solana.isPhantom) {
+            try {
+                // Request access to the user's Phantom wallet
+                const response = await window.solana.connect();
+                connectedWalletAddress = response.publicKey.toString();
 
-        connectedWalletAddress = walletAddress;
+                // Display abbreviated address in the button
+                connectWalletButton.textContent = `${connectedWalletAddress.slice(0, 3)}...${connectedWalletAddress.slice(-4)}`;
 
-        // Update the button to show the abbreviated wallet address
-        connectWalletButton.textContent = `${walletAddress.slice(0, 3)}...${walletAddress.slice(-4)}`;
-        walletOptions.style.display = 'none'; // Close the wallet options dropdown
+                walletOptions.style.display = 'none'; // Close the wallet options dropdown
+            } catch (error) {
+                console.error('Failed to connect to Phantom wallet:', error);
+                alert('Failed to connect to Phantom wallet');
+            }
+        } else {
+            alert('Phantom wallet not detected. Please install Phantom wallet extension.');
+        }
     };
 
     // Handle minting action
