@@ -1,0 +1,173 @@
+/* Wallet Dropdown Styles */
+#walletDropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 200px;
+    margin-top: 10px;
+}
+
+#walletAddress {
+    font-size: 16px;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#walletDropdown p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* Wallet Option Styles (hidden by default) */
+.wallet-options {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.wallet-option {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.wallet-option:last-child {
+    border-bottom: none;
+}
+
+.wallet-option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Pop-up Styles */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.popup-button {
+    margin: 5px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-button:hover {
+    background: #0056b3;
+}
+
+.connect-wallet {
+    margin: 5px;
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.connect-wallet:hover {
+    background: #218838;
+}
+
+/* Cooperation Modal Styles */
+#cooperationModal,
+#outcomeModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#cooperateButton,
+#stealButton,
+#closeOutcomeModal,
+#closeExplanationPopup,
+#closeTrackerPopup {
+    margin: 10px;
+    padding: 10px 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cooperateButton:hover,
+#stealButton:hover,
+#closeOutcomeModal:hover,
+#closeExplanationPopup:hover,
+#closeTrackerPopup:hover {
+    background: #c82333;
+}
+
+/* General Styles */
+body {
+    font-family: 'Doto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #343a40;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 24px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+#blenderVideo {
+    display: none;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
