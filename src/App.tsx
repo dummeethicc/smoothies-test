@@ -16,10 +16,6 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 import { SlopeWalletAdapter } from "@solana/wallet-adapter-slope";
 import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
-import {
-  SolletWalletAdapter,
-  SolletExtensionWalletAdapter,
-} from "@solana/wallet-adapter-sollet";
 
 const theme = createTheme({
   palette: {
